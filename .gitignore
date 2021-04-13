@@ -137,3 +137,7 @@ eval_dirs/
 nohup.out
 
 tools/eval_widerface
+
+.vscode/
+notebooks/
+weights/
