@@ -1,7 +1,6 @@
 # 1. data
 dataset_type = 'WIDERFaceDataset'
-# data_root = 'data/wider_face/'
-data_root = '/DATA8_DB12/home/shuhanzhang/dev/data/public/public/WiderFace/wider-face-pascal-voc-annotations/'  # noqa
+data_root = 'data/wider_face/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[1, 1, 1], to_rgb=True)
 size_divisor = 32
@@ -37,7 +36,7 @@ data = dict(
         typename=dataset_type,
         ann_file=data_root + 'WIDER_train/train.txt',
         img_prefix=data_root + 'WIDER_train/',
-        min_size=9,
+        min_size=1,
         offset=0,
         pipeline=[
             dict(typename='LoadImageFromFile'),
@@ -73,7 +72,8 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         norm_cfg=dict(typename='GN', num_groups=32, requires_grad=True),
         norm_eval=False,
-        dcn=dict(typename='DCN', deformable_groups=1, fallback_on_stride=False),
+        dcn=dict(
+            typename='DCN', deformable_groups=1, fallback_on_stride=False),
         stage_with_dcn=(False, False, True, True),
         style='pytorch'),
     neck=[
@@ -152,7 +152,7 @@ train_engine = dict(
             debug=False)),
     optimizer=dict(typename='SGD', lr=3.75e-3, momentum=0.9, weight_decay=5e-4)) # 3 GPUS
 
-## 3.2 val engine
+# 3.2 val engine
 val_engine = dict(
     typename='ValEngine',
     model=model,
